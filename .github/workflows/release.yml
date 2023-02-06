@@ -1,0 +1,40 @@
+on:
+  push:
+    branches:
+      - main
+
+name: Release
+
+permissions: write-all
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          command: manifest
+          config-file: .github/release-config.json
+          manifest-file: .github/release-manifest.json
+          default-branch: main
+      - uses: actions/checkout@v3
+        if: ${{ steps.release.outputs.releases_created }}
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+        if: ${{ steps.release.outputs.releases_created }}
+      - run: bundle install
+        if: ${{ steps.release.outputs.releases_created }}
+      - run: |
+          mkdir -p $HOME/.gem
+          touch $HOME/.gem/credentials
+          chmod 0600 $HOME/.gem/credentials
+          printf -- "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}\n" > $HOME/.gem/credentials
+          gem build *.gemspec
+          gem push *.gem
+        env:
+          RUBYGEMS_API_KEY: "${{ secrets.RUBYGEMS_API_KEY }}"
+        if: ${{ steps.release.outputs.releases_created }}
