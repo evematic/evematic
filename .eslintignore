@@ -1,0 +1,10 @@
+**/assets/builds/**/*
+**/node_modules/**/*
+**/public/assets/**/*
+**/spec/cassettes/**/*
+**/vendor/**/*
+/.github/release-manifest.json
+/CHANGELOG.md
+/coverage/**/*
+/dist/**/*
+/pkg/**/*
