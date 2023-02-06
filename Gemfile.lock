@@ -97,7 +97,7 @@ GIT
 PATH
   remote: .
   specs:
-    evematic (0.0.0)
+    evematic (0.1.0)
       rails (>= 7.0, <= 7.2)
       turbo-rails (~> 1.3)
 
