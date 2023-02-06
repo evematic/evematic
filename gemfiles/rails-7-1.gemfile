@@ -1,0 +1,3 @@
+eval_gemfile("common.gemfile")
+
+gem "rails", github: "rails/rails", branch: "main"
