@@ -1,0 +1,119 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  lint-javascript:
+    name: Lint (JavaScript)
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+
+  lint-markdown:
+    name: Lint (Markdown)
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn markdownlint
+
+  lint-prettier:
+    name: Lint (Prettier)
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn prettier
+
+  lint-ruby:
+    name: Lint (Ruby)
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: |
+          bundle exec rubocop -P
+          bundle exec erblint --format compact --lint-all
+          # bundle exec i18n-tasks health
+
+  package:
+    name: Package
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+      - run: |
+          gem build *.gemspec
+          gem install *.gem
+
+  security-javascript:
+    name: Security (JavaScript)
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn audit
+
+  security-ruby:
+    name: Security (Ruby)
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: |
+          bundle exec brakeman -q
+          bundle exec bundle-audit -uq
+
+  test:
+    name: Ruby ${{ matrix.ruby }} (${{ matrix.gemfile }})
+    runs-on: ${{ matrix.os }}
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest]
+        ruby:
+          - '3.0'
+          - '3.1'
+          - '3.2'
+        gemfile:
+          - gemfiles/rails-7-0.gemfile
+          - gemfiles/rails-7-1.gemfile
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+          rubygems: latest
+      - run: bin/rspec
+        timeout-minutes: 10
+      - uses: codecov/codecov-action@v3
