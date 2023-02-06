@@ -1,0 +1,2 @@
+module Evematic::ApplicationHelper
+end
