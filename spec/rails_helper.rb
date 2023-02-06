@@ -11,12 +11,9 @@ require_relative "support/helpers/database_cleaner"
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
-begin
-  ActiveRecord::Migration.maintain_test_schema!
-rescue ActiveRecord::PendingMigrationError => e
-  puts e.to_s.strip
-  exit 1
-end
+ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
+ActiveRecord::Schema.verbose = false
+load Rails.root.join("db/schema.rb")
 
 VCR.configure do |c|
   c.cassette_library_dir = "spec/cassettes"
@@ -28,6 +25,9 @@ end
 Dir["#{__dir__}/support/helpers/**/*.rb"].each { |f| require f }
 Dir["#{__dir__}/support/shared_contexts/**/*.rb"].each { |f| require f }
 
+FactoryBot.definition_file_paths = [File.expand_path("./factories", __dir__)]
+FactoryBot.find_definitions
+
 require "capybara/cuprite"
 Capybara.javascript_driver = :cuprite
 Capybara.register_driver(:cuprite) do |app|
@@ -35,9 +35,13 @@ Capybara.register_driver(:cuprite) do |app|
 end
 Capybara.server = :puma, {Silent: true}
 
+OmniAuth.config.test_mode = true
+
 RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers
   config.include FactoryBot::Syntax::Methods
+  config.include OmniAuth::ControllerSpecHelper, type: :controller
+  config.include OmniAuth::RequestSpecHelper, type: :request
 
   config.use_transactional_fixtures = false
 

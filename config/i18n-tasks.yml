@@ -15,7 +15,7 @@ data:
 
   # Locale files or `File.find` patterns where translations are read from:
   read:
-    - config/locales/**/*.%{locale}.yml
+    # - config/locales/{locale}.yml
     ## Default:
     # - config/locales/%{locale}.yml
     ## More files:
@@ -54,8 +54,10 @@ data:
 # Find translate calls
 search:
   ## Paths or `File.find` patterns to search in:
-  # paths:
-  #  - app/
+  paths:
+    - app/
+    - lib/evematic/controllers
+    - lib/evematic/views
 
   ## Root directories for relative keys resolution.
   # relative_roots:
@@ -119,7 +121,6 @@ search:
 
 ## Consider these keys used:
 ignore_unused:
-  - evematic.engine.name
 # - 'activerecord.attributes.*'
 # - '{devise,kaminari,will_paginate}.*'
 # - 'simple_form.{yes,no}'

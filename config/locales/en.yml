@@ -1,0 +1,13 @@
+---
+en:
+  evematic:
+    errors:
+      login_required: You need to log in to do that.
+    sessions:
+      new:
+        login_button_label: Log in with EVE Online SSO
+    sso_callbacks:
+      eve:
+        forbidden: "%{name} is not authorized to log in."
+      failure:
+        not_authorized: Character is not authorized to log in.

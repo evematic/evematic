@@ -1,5 +1,3 @@
-module Evematic
-  class Evematic::ApplicationRecord < ActiveRecord::Base
-    self.abstract_class = true
-  end
+class Evematic::ApplicationRecord < ActiveRecord::Base
+  self.abstract_class = true
 end

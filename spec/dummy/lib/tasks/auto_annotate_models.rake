@@ -17,7 +17,7 @@ if Rails.env.development?
       "show_complete_foreign_keys" => "false",
       "show_indexes" => "true",
       "simple_indexes" => "false",
-      "model_dir" => "app/models",
+      "model_dir" => "app/models,#{Bundler.root}/app/models",
       "root_dir" => Bundler.root,
       "include_version" => "false",
       "require" => "",

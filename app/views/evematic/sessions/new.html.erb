@@ -1,0 +1,4 @@
+<%= button_to "/auth/eve", method: :post, data: {turbo: false} do %>
+  <span class="sr-only"><%= t(".login_button_label") %></span>
+  <%= image_tag("evematic/eve-sso-login-black-large.png") %>
+<% end %>

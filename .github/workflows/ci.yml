@@ -8,6 +8,18 @@ on:
   workflow_dispatch:
 
 jobs:
+  assets:
+    name: Assets
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn prod:build
+
   lint-javascript:
     name: Lint (JavaScript)
     runs-on: 'ubuntu-22.04'
@@ -91,33 +103,20 @@ jobs:
           bundle exec bundle-audit -uq
 
   test:
-    name: Ruby ${{ matrix.ruby }} (${{ matrix.gemfile }})
-    runs-on: ${{ matrix.os }}
-    env:
-      BUNDLE_GEMFILE: ${{ github.workspace }}/${{ matrix.gemfile }}
-    strategy:
-      fail-fast: true
-      matrix:
-        os: [ubuntu-latest]
-        ruby:
-          - '3.0'
-          - '3.1'
-          - '3.2'
-        gemfile:
-          - gemfiles/rails-7-0.gemfile
-          - gemfiles/rails-7-1.gemfile
+    name: Test
+    runs-on: 'ubuntu-22.04'
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-          rubygems: latest
       - uses: actions/setup-node@v3
         with:
           node-version-file: .node-version
           cache: yarn
       - run: yarn install --frozen-lockfile
-      - run: bin/rspec
+      - run: |
+          yarn build
+          bin/rspec
         timeout-minutes: 10
       - uses: codecov/codecov-action@v3

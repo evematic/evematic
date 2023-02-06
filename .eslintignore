@@ -1,4 +1,5 @@
 **/assets/builds/**/*
+**/config/locales/**/*
 **/node_modules/**/*
 **/public/assets/**/*
 **/spec/cassettes/**/*

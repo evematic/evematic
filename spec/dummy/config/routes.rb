@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  mount Evematic::Engine, at: "/evematic"
+  evematic_authentication
+
+  resource :dashboard, only: [:show]
 
   root to: "welcome#index"
 end

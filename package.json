@@ -12,7 +12,7 @@
     "build:js": "esbuild app/javascript/evematic/application.js --bundle --sourcemap --outdir=app/assets/builds/evematic --public-path=assets",
     "build:css": "tailwindcss -i ./app/assets/stylesheets/evematic/application.css -o ./app/assets/builds/evematic/application.css --postcss",
     "prod:build": "yarn prod:build:js && yarn prod:build:css",
-    "prod:build:js": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=public/evematic --public-path=evematic",
+    "prod:build:js": "esbuild app/javascript/evematic/application.js --bundle --sourcemap --outdir=public/evematic --public-path=evematic",
     "prod:build:css": "tailwindcss -i ./app/assets/stylesheets/evematic/application.css -o ./public/evematic/application.css --postcss",
     "lint": "eslint \"./**/*.js\" --cache --cache-strategy content",
     "lint:fix": "eslint \"./**/*.js\" --fix",
