@@ -139,7 +139,7 @@ GIT
 PATH
   remote: .
   specs:
-    evematic (0.1.0)
+    evematic (0.1.1)
       dry-configurable (~> 1.0)
       faraday-detailed_logger (~> 2.5)
       faraday-http-cache (~> 2.4)
