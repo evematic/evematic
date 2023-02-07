@@ -150,3 +150,10 @@ Rails/WhereNot: # new in 2.8
 
 Rails/WhereNotWithMultipleConditions: # new in 2.17
   Enabled: true
+
+Rails/UnknownEnv:
+  Environments:
+    - development
+    - local
+    - production
+    - test

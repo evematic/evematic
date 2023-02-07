@@ -1,0 +1,2 @@
+module Evematic::Models
+end

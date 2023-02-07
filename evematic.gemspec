@@ -12,8 +12,8 @@ Gem::Specification.new do |spec|
   spec.description = "Evematic is a full-stack toolkit for building third party applications for EVE Online with Ruby on Rails."
   spec.license = "MIT"
 
-  spec.required_ruby_version = ">= 3.0"
-  spec.required_rubygems_version = ">= 3.2.3"
+  spec.required_ruby_version = ">= 3.2.0"
+  spec.required_rubygems_version = ">= 3.4.1"
 
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/evematic/evematic/issues",
@@ -37,6 +37,16 @@ Gem::Specification.new do |spec|
   ]
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "dry-configurable", "~> 1.0"
+  spec.add_dependency "faraday-detailed_logger", "~> 2.5"
+  spec.add_dependency "faraday-http-cache", "~> 2.4"
+  spec.add_dependency "faraday-retry", "~> 2.0"
+  spec.add_dependency "faraday-typhoeus", "~> 1.0"
+  spec.add_dependency "omniauth", "~> 2.1"
+  spec.add_dependency "omniauth-eve_online", "~> 1.0.1"
+  spec.add_dependency "omniauth-rails_csrf_protection", "~> 1.0"
   spec.add_dependency "rails", [">= 7.0", "<= 7.2"]
   spec.add_dependency "turbo-rails", "~> 1.3"
+  spec.add_dependency "typhoeus", "~> 1.4"
+  spec.add_dependency "zeitwerk", "~> 2.5"
 end
