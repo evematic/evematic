@@ -28,7 +28,7 @@
     "@tailwindcss/line-clamp": "^0.4.2",
     "@tailwindcss/typography": "^0.5.9",
     "autoprefixer": "^10.4.13",
-    "esbuild": "^0.17.6",
+    "esbuild": "^0.17.7",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.6.0",
     "eslint-config-standard": "^17.0.0",
